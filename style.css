@@ -1,0 +1,107 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap');
+
+.page {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.container {
+  width: 600px;
+  margin: 100px;
+  border: 1px solid black;
+  font-family: "Roboto", sans-serif;
+}
+
+input {
+  outline: none;
+  font-size: 18px;
+}
+
+.search {
+  margin-right: 0;
+  margin-left: auto;
+}
+
+.input {
+  padding: 10px;
+  border-bottom: 1px solid black;
+  align-items: center;
+  display: flex;
+}
+
+.temperature {
+  font-size: 70px;
+  padding: 20px;
+}
+
+.currentCity {
+  font-size: 28px;
+  padding: 20px;
+}
+
+.addCity {
+  font-size: 28px;
+  margin-left: auto;
+  margin-right: 0;
+  padding: 20px;
+}
+
+.mainDisplay {
+  width: 100%;
+  display: flex;
+}
+
+.leftBlock {
+  flex-basis: 50%;
+  display: flex;
+  flex-flow: column nowrap;
+  border-right: 1px solid black;
+}
+
+.deletDiv {
+  margin-left: 15px;
+  color: initial;
+}
+.deletDiv:hover {
+  color: gray
+}
+
+.inputCity {
+  width: 500px;
+}
+
+.qwerty:hover {
+  color: coral;
+}
+
+.iconWeather {
+  margin-left: auto;
+  margin-right: auto;
+  padding: 5% 0;
+}
+
+.bottomBlock {
+  display: flex;
+}
+
+.rightBlock {
+  flex-basis: 50%;
+  display: flex;
+  font-size: 24px;
+  flex-flow: column nowrap;
+}
+
+.addedLocation {
+  border-bottom: 1px solid black;
+  padding: 20px;
+  margin-bottom: 15px;
+}
+
+li {
+  list-style-type: none;
+  padding-bottom: 20px;
+  padding-left: 20px;
+  cursor: pointer;
+}
