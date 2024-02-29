@@ -18,6 +18,25 @@ input {
   outline: none;
   font-size: 18px;
 }
+.leftBlockMid{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.currentImg{
+  width:150px;
+  padding-right: 20px;
+}
+
+.bottomText{
+  font-size: 21px;
+  font-family: Roboto;
+}
+
+.leftBlockBottom{
+  padding: 20px;
+}
 
 .search {
   margin-right: 0;
@@ -34,6 +53,7 @@ input {
 .temperature {
   font-size: 70px;
   padding: 20px;
+  padding-right: 0px;
 }
 
 .currentCity {

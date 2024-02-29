@@ -11,6 +11,9 @@ const CITIES = document.querySelector(".cities")
 const HEART = document.querySelector(".heart")
 const DELETEBUTTON = document.querySelector(".deletDiv")
 const LIPARENT = document.querySelector(".cities")
+const FEELSLIKE = document.querySelector(".feelsLike")
+const SUNRISE = document.querySelector(".sunrise")
+const SUNSET = document.querySelector(".sunset")
 let favorit = []
 
 function weather() {
@@ -22,6 +25,9 @@ function weather() {
             return response.json()
         })
         .then(data => {
+            SUNSET.textContent = `Sunset: ${new Date(data.sys.sunset * 1000).getHours()}:${new Date(data.sys.sunrise).getMinutes()}`
+            SUNRISE.textContent = `Sunrise: ${new Date(data.sys.sunrise * 1000).getHours()}:${new Date(data.sys.sunrise).getMinutes()}`
+            FEELSLIKE.textContent = `Feels like: ${(Math.ceil((data.main.feels_like) - 273))}`
             TEMPERATURE.textContent = (Math.ceil((data.main.temp) - 273)) + `°`
             CURRENTCITY.textContent = document.querySelector(".inputCity").value.toLowerCase()
             CURRENTCITY.textContent = document.querySelector(".inputCity").value[0].toUpperCase() + document.querySelector(".inputCity").value.slice(1);
@@ -67,7 +73,6 @@ function favorite() {
         console.error(err)
 
     }
-    redHeart()
 }
 
 function render() {
@@ -90,14 +95,13 @@ function render() {
 function redHeart() {
     if (!favorit.includes(document.querySelector(".inputCity").value)) {
         HEART.src = "./icons/heart.png"
-    } else {
-        HEART.src = "./icons/redheart.png"
+        return
     }
-    setTimeout(function () {
-        if (favorit.includes(CURRENTCITY.textContent)) {
-            HEART.src = "./icons/redheart.png"
-        }
-    }, 300)
+    HEART.src = "./icons/redheart.png"
+    // if (favorit.includes(CURRENTCITY.textContent)) {
+    //     HEART.src = "./icons/redheart.png"
+
+    // }
 }
 
 function deleteTest(event) {
