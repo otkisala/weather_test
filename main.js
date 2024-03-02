@@ -43,11 +43,11 @@ function redHeart() {
     } else {
         HEART.src = "./icons/redheart.png"
     }
-    // setTimeout(function () {
+    setTimeout(function () {
     if (favorit.includes(CURRENT_CITY.textContent)) {
         HEART.src = "./icons/redheart.png"
     }
-    // }, 1000)
+    }, 1000)
 }
 
 function deleteTest(event) {
