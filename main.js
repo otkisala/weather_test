@@ -3,13 +3,6 @@ import { weather } from "./temperatureFetch.js";
 
 let favorite = [];
 
-// function storage() {
-//     favorite = getFavoriteCities();
-//     favorite.push(CURRENT_CITY.textContent);
-//     saveFavoriteCities(favorite);
-//     render();
-// }
-
 function setFavoriteCity() {
     favorite = getFavoriteCities();
     saveFavoriteCities(favorite);
@@ -34,10 +27,6 @@ function selectCity() {
         let currentCityName = CURRENT_CITY.textContent;
         localStorage.setItem('selectedCity', currentCityName);
     },400)
-    // if (!favorite.includes(favorite)) {
-    //     favorite.push(favorite);
-    //     saveFavoriteCities(favorite);
-    // }
 }
 
 function test(e) {
