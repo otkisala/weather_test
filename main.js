@@ -96,7 +96,6 @@ function cityToFind(event) {
     document.querySelector(".inputCity").value = cityToFind;
     redHeart()
     weather();
-    predictions();
     render();
 };
 
