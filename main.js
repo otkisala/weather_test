@@ -26,7 +26,7 @@ function selectCity() {
     setTimeout(function () {
         let currentCityName = CURRENT_CITY.textContent;
         localStorage.setItem('selectedCity', currentCityName);
-    },400)
+    }, 400)
 }
 
 function test(e) {
@@ -50,23 +50,44 @@ function addFavoriteCity() {
     }
 };
 
+// function render() {
+//     while (CITIES.firstChild) {
+//         CITIES.removeChild(CITIES.firstChild);
+//     }
+//     for (let i = 0; i < favorite.length; i++) {
+//         const newLi = document.createElement('li');
+//         const deletBut = document.createElement('button');
+//         newLi.textContent = favorite[i];
+//         CITIES.appendChild(newLi);
+//         newLi.appendChild(deletBut);
+//         deletBut.addEventListener("click", deleteTest);
+//         deletBut.innerHTML = "&#10060;";
+//         deletBut.className = "deletDiv";
+//         deletBut.setAttribute('data-city', favorite[i]);
+//     }
+//     redHeart();
+// };
+
 function render() {
-    while (CITIES.firstChild) {
+    if (CITIES.firstChild) {
         CITIES.removeChild(CITIES.firstChild);
-    }
-    for (let i = 0; i < favorite.length; i++) {
-        const newLi = document.createElement('li');
-        const deletBut = document.createElement('button');
-        newLi.textContent = favorite[i];
-        CITIES.appendChild(newLi);
-        newLi.appendChild(deletBut);
-        deletBut.addEventListener("click", deleteTest);
-        deletBut.innerHTML = "&#10060;";
-        deletBut.className = "deletDiv";
-        deletBut.setAttribute('data-city', favorite[i]);
+        render();
+    } else {
+        for (let i = 0; i < favorite.length; i++) {
+            const newLi = document.createElement('li');
+            const deletBut = document.createElement('button');
+            newLi.textContent = favorite[i];
+            CITIES.appendChild(newLi);
+            newLi.appendChild(deletBut);
+            deletBut.addEventListener("click", deleteTest);
+            deletBut.innerHTML = "&#10060;";
+            deletBut.className = "deletDiv";
+            deletBut.setAttribute('data-city', favorite[i]);
+
+        }
     }
     redHeart();
-};
+}
 
 function redHeart() {
     if (!favorite.includes(document.querySelector(".inputCity").value)) {
@@ -80,6 +101,8 @@ function redHeart() {
         }
     }, 300);
 };
+
+
 
 function deleteTest(event) {
     let cityToDelet = event.target.getAttribute('data-city');
