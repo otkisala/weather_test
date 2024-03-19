@@ -1,0 +1,7 @@
+main1.js
+package.json
+package-lock.json
+/dist
+.parcel-cache
+node_modules
+.eslintrc.js

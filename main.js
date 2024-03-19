@@ -34,7 +34,8 @@ function test(e) {
     weather();
     render();
     selectCity()
-};
+    cookiesCurrentCity()
+}
 
 function addFavoriteCity() {
     try {
@@ -48,7 +49,32 @@ function addFavoriteCity() {
     } catch (err) {
         console.error(err);
     }
-};
+}
+
+
+function cookiesCurrentCity() {
+    setTimeout(() => {
+        let currentCityName = CURRENT_CITY.textContent;
+        console.log(currentCityName)
+        setTimeout(() => {
+            document.cookie = `currentCity = ${currentCityName};`
+        }, 400);
+        document.querySelector(".inputCity").value = currentCityName;
+        weather();
+        render();
+    }, 450);
+
+}
+
+function getCookie() {
+        return document.cookie.split('; ').reduce((acc, item) => {
+            const [name, value] = item.split('=')
+            acc[name] = value
+            return acc
+        }, {})
+}
+
+const cookie = getCookie()
 
 // function render() {
 //     while (CITIES.firstChild) {
@@ -91,17 +117,16 @@ function render() {
 
 function redHeart() {
     if (!favorite.includes(document.querySelector(".inputCity").value)) {
-        HEART.src = "./icons/heart.png";
+        HEART.src = new URL("/icons/heart.png", import.meta.url);
     } else {
-        HEART.src = "./icons/redheart.png";
+        HEART.src = new URL("/icons/redheart.png", import.meta.url);
     }
     setTimeout(function () {
         if (favorite.includes(CURRENT_CITY.textContent)) {
-            HEART.src = "./icons/redheart.png";
+            HEART.src = new URL("/icons/redheart.png", import.meta.url);
         }
     }, 300);
-};
-
+}
 
 
 function deleteTest(event) {
@@ -112,23 +137,32 @@ function deleteTest(event) {
         saveFavoriteCities(favorite);
         render();
     }
-};
-
+    cookiesCurrentCity();
+}
 function cityToFind(event) {
     let cityToFind = event.target.textContent.slice(0, -1);
     document.querySelector(".inputCity").value = cityToFind;
-    redHeart()
+    redHeart();
     weather();
     render();
-};
-
+    cookiesCurrentCity();
+}
 BUTTON_SEARCH.addEventListener("click", test);
 HEART.addEventListener("click", addFavoriteCity);
 DELETE_BUTTON.addEventListener("click", deleteTest);
 LI_PARENT.addEventListener("click", cityToFind);
 document.addEventListener('DOMContentLoaded', setFavoriteCity);
+// document.addEventListener('DOMContentLoaded', function () {
+//     let selectedCity = localStorage.getItem('selectedCity');
+//     if (selectedCity) {
+//         document.querySelector(".inputCity").value = selectedCity;
+//         weather();
+//         render();
+//     }
+// });
 document.addEventListener('DOMContentLoaded', function () {
-    let selectedCity = localStorage.getItem('selectedCity');
+    let selectedCity = cookie.currentCity
+
     if (selectedCity) {
         document.querySelector(".inputCity").value = selectedCity;
         weather();
