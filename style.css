@@ -19,6 +19,52 @@ input {
   font-size: 18px;
 }
 
+.leftBlockMid {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.night{
+  font-size: bold;
+}
+
+.currentImg {
+  width: 150px;
+  padding-right: 20px;
+}
+
+.bottomText {
+  font-size: 21px;
+  font-family: Roboto;
+}
+
+.leftBlockBottom {
+  padding: 20px;
+}
+
+.predictionsTime{
+  size: 18px;
+}
+
+.predictionsInfo{
+  /* padding-bottom: 2px; */
+  size: 18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.predictions{
+  padding: 10px 20px;
+}
+
+.hrBottom {
+  border: none;
+  background-color: black;
+  color: black;
+  height: 2px;
+}
+
 .search {
   margin-right: 0;
   margin-left: auto;
@@ -34,6 +80,7 @@ input {
 .temperature {
   font-size: 70px;
   padding: 20px;
+  padding-right: 0px;
 }
 
 .currentCity {
@@ -64,6 +111,7 @@ input {
   margin-left: 15px;
   color: initial;
 }
+
 .deletDiv:hover {
   color: gray
 }

@@ -1,124 +1,171 @@
-const BUTTONSEARCH = document.querySelector(".search")
-const cityInput = document.querySelector(".inputCity")
-const SERVERURL = 'http://api.openweathermap.org/data/2.5/weather';
-const cityName = document.querySelector(".inputCity").value;
-const APIKEY = '3136a63ccda334b76672d126751488cb';
-const url = `${SERVERURL}?q=${document.querySelector(".inputCity").value}&appid=${APIKEY}`
-const TEMPERATURE = document.querySelector(".temperature")
-const CURRENTCITY = document.querySelector(".currentCity")
-const CURRENTIMG = document.querySelector(".currentImg")
-const CITIES = document.querySelector(".cities")
-const HEART = document.querySelector(".heart")
-const DELETEBUTTON = document.querySelector(".deletDiv")
-const LIPARENT = document.querySelector(".cities")
-let favorit = []
+import { BUTTON_SEARCH, CURRENT_CITY, CITIES, HEART, DELETE_BUTTON, LI_PARENT, } from "./config.js";
+import { weather } from "./temperatureFetch.js";
 
-function weather() {
-    fetch(`http://api.openweathermap.org/data/2.5/weather?q=${document.querySelector(".inputCity").value}&appid=3136a63ccda334b76672d126751488cb`)
-        .then(response => {
-            if (response.status === 404 || document.querySelector(".inputCity").value == "") {
-                throw new Error("неправильно набран город")
-            }
-            return response.json()
-        })
-        .then(data => {
-            TEMPERATURE.textContent = (Math.ceil((data.main.temp) - 273)) + `°`
-            CURRENTCITY.textContent = document.querySelector(".inputCity").value.toLowerCase()
-            CURRENTCITY.textContent = document.querySelector(".inputCity").value[0].toUpperCase() + document.querySelector(".inputCity").value.slice(1);
-            if (data.weather[0].id === 800) {
-                CURRENTIMG.src = "http://openweathermap.org/img/wn/01d@4x.png"
-            } else if (data.weather[0].id === 801) {
-                CURRENTIMG.src = "http://openweathermap.org/img/wn/02d@4x.png"
-            } else if (data.weather[0].id === 803 || data.weather[0].id === 804) {
-                CURRENTIMG.src = "http://openweathermap.org/img/wn/04d@4x.png"
-            } else if (Math.floor(data.weather[0].id / 100) === 7) {
-                CURRENTIMG.src = "http://openweathermap.org/img/wn/50d@4x.png"
-            } else if (Math.floor(data.weather[0].id / 100) === 6 || data.weather[0].id === 511) {
-                CURRENTIMG.src = "http://openweathermap.org/img/wn/13d@4x.png"
-            } else if (data.weather[0].id >= 500 && data.weather[0].id <= 504) {
-                CURRENTIMG.src = "http://openweathermap.org/img/wn/10d@4x.png"
-            } else if (data.weather[0].id >= 520 && data.weather[0].id <= 531) {
-                CURRENTIMG.src = "http://openweathermap.org/img/wn/09d@4x.png"
-            } else if (Math.floor(data.weather[0].id / 100) === 3) {
-                CURRENTIMG.src = "http://openweathermap.org/img/wn/09d@4x.png"
-            } else if (Math.floor(data.weather[0].id / 100) === 2) {
-                CURRENTIMG.src = "http://openweathermap.org/img/wn/11d@4x.png"
-            }
-        })
-        .catch(error => console.error(error))
+let favorite = [];
+
+function setFavoriteCity() {
+    favorite = getFavoriteCities();
+    saveFavoriteCities(favorite);
+    render();
+}
+
+function getFavoriteCities() {
+    let cities = localStorage.getItem('favorit');
+    if (cities) {
+        return JSON.parse(cities);
+    } else {
+        return [];
+    }
+}
+
+function saveFavoriteCities(cities) {
+    localStorage.setItem('favorit', JSON.stringify(cities));
+}
+
+function selectCity() {
+    setTimeout(function () {
+        let currentCityName = CURRENT_CITY.textContent;
+        localStorage.setItem('selectedCity', currentCityName);
+    }, 400)
 }
 
 function test(e) {
     e.preventDefault();
-    weather()
-    redHeart()
-    render()
+    weather();
+    render();
+    selectCity()
+    cookiesCurrentCity()
 }
 
-function favorite() {
+function addFavoriteCity() {
     try {
-        if (!favorit.includes(CURRENTCITY.textContent)) {
-            favorit.push(CURRENTCITY.textContent)
-            render()
+        if (!favorite.includes(CURRENT_CITY.textContent)) {
+            favorite.push(CURRENT_CITY.textContent);
+            saveFavoriteCities(favorite);
+            render();
         } else {
-            throw new Error("Данный город уже есть")
+            throw new Error("Данный город уже есть");
         }
     } catch (err) {
-        console.error(err)
-
+        console.error(err);
     }
-    redHeart()
 }
 
+
+function cookiesCurrentCity() {
+    setTimeout(() => {
+        let currentCityName = CURRENT_CITY.textContent;
+        console.log(currentCityName)
+        setTimeout(() => {
+            document.cookie = `currentCity = ${currentCityName};`
+        }, 400);
+        document.querySelector(".inputCity").value = currentCityName;
+        weather();
+        render();
+    }, 450);
+
+}
+
+function getCookie() {
+        return document.cookie.split('; ').reduce((acc, item) => {
+            const [name, value] = item.split('=')
+            acc[name] = value
+            return acc
+        }, {})
+}
+
+const cookie = getCookie()
+
+// function render() {
+//     while (CITIES.firstChild) {
+//         CITIES.removeChild(CITIES.firstChild);
+//     }
+//     for (let i = 0; i < favorite.length; i++) {
+//         const newLi = document.createElement('li');
+//         const deletBut = document.createElement('button');
+//         newLi.textContent = favorite[i];
+//         CITIES.appendChild(newLi);
+//         newLi.appendChild(deletBut);
+//         deletBut.addEventListener("click", deleteTest);
+//         deletBut.innerHTML = "&#10060;";
+//         deletBut.className = "deletDiv";
+//         deletBut.setAttribute('data-city', favorite[i]);
+//     }
+//     redHeart();
+// };
+
 function render() {
-    while (CITIES.firstChild) {
-        CITIES.removeChild(CITIES.firstChild)
+    if (CITIES.firstChild) {
+        CITIES.removeChild(CITIES.firstChild);
+        render();
+    } else {
+        for (let i = 0; i < favorite.length; i++) {
+            const newLi = document.createElement('li');
+            const deletBut = document.createElement('button');
+            newLi.textContent = favorite[i];
+            CITIES.appendChild(newLi);
+            newLi.appendChild(deletBut);
+            deletBut.addEventListener("click", deleteTest);
+            deletBut.innerHTML = "&#10060;";
+            deletBut.className = "deletDiv";
+            deletBut.setAttribute('data-city', favorite[i]);
+
+        }
     }
-    for (i = 0; i < favorit.length; i++) {
-        const newLi = document.createElement('li')
-        const deletBut = document.createElement('button')
-        newLi.textContent = favorit[i]
-        CITIES.appendChild(newLi)
-        newLi.appendChild(deletBut)
-        deletBut.addEventListener("click", deleteTest)
-        deletBut.innerHTML = "&#10060;"
-        deletBut.className = "deletDiv"
-    }
-    redHeart()
+    redHeart();
 }
 
 function redHeart() {
-    if (!favorit.includes(document.querySelector(".inputCity").value)) {
-        HEART.src = "./icons/heart.png"
+    if (!favorite.includes(document.querySelector(".inputCity").value)) {
+        HEART.src = new URL("/icons/heart.png", import.meta.url);
     } else {
-        HEART.src = "./icons/redheart.png"
+        HEART.src = new URL("/icons/redheart.png", import.meta.url);
     }
     setTimeout(function () {
-        if (favorit.includes(CURRENTCITY.textContent)) {
-            HEART.src = "./icons/redheart.png"
+        if (favorite.includes(CURRENT_CITY.textContent)) {
+            HEART.src = new URL("/icons/redheart.png", import.meta.url);
         }
-    }, 300)
+    }, 300);
 }
+
 
 function deleteTest(event) {
-    let cityToDelet = event.target.parentNode.textContent.slice(0, -1)
-    let IndexCityToDelet = favorit.indexOf(cityToDelet)
-    favorit.splice(IndexCityToDelet, 1)
-    redHeart()
-    render()
+    let cityToDelet = event.target.getAttribute('data-city');
+    let indexCityToDelet = favorite.indexOf(cityToDelet);
+    if (indexCityToDelet !== -1) {
+        favorite.splice(indexCityToDelet, 1);
+        saveFavoriteCities(favorite);
+        render();
+    }
+    cookiesCurrentCity();
 }
-
 function cityToFind(event) {
-    let cityToFind = event.target.textContent.slice(0, -1)
-    document.querySelector(".inputCity").value = cityToFind
-    weather()
-    redHeart()
-    render()
+    let cityToFind = event.target.textContent.slice(0, -1);
+    document.querySelector(".inputCity").value = cityToFind;
+    redHeart();
+    weather();
+    render();
+    cookiesCurrentCity();
 }
+BUTTON_SEARCH.addEventListener("click", test);
+HEART.addEventListener("click", addFavoriteCity);
+DELETE_BUTTON.addEventListener("click", deleteTest);
+LI_PARENT.addEventListener("click", cityToFind);
+document.addEventListener('DOMContentLoaded', setFavoriteCity);
+// document.addEventListener('DOMContentLoaded', function () {
+//     let selectedCity = localStorage.getItem('selectedCity');
+//     if (selectedCity) {
+//         document.querySelector(".inputCity").value = selectedCity;
+//         weather();
+//         render();
+//     }
+// });
+document.addEventListener('DOMContentLoaded', function () {
+    let selectedCity = cookie.currentCity
 
-BUTTONSEARCH.addEventListener("click", test)
-BUTTONSEARCH.addEventListener("click", redHeart)
-HEART.addEventListener("click", favorite)
-HEART.addEventListener("click", redHeart)
-DELETEBUTTON.addEventListener("click", deleteTest)
-LIPARENT.addEventListener("click", cityToFind)
+    if (selectedCity) {
+        document.querySelector(".inputCity").value = selectedCity;
+        weather();
+        render();
+    }
+});

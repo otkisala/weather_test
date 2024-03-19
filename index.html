@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ru">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,36 +8,83 @@
     <link rel="stylesheet" href="null.css">
     <title>Weather</title>
 </head>
+
 <body class="page">
     <div class="container">
         <form action="">
             <div class="input">
                 <input type="text" class="inputCity" placeholder="">
-                <button class="search" ><img src="./icons/search.png"  ></button>
+                <button class="search"><img src="./icons/search.png"></button>
             </div>
         </form>
         <div class="mainDisplay">
             <div class="leftBlock">
-                <p class="temperature">14°</p>
-                <div class="iconWeather">
-                    <img class="currentImg" src="http://openweathermap.org/img/wn/13d@4x.png">
-                </div>
                 <div class="bottomBlock">
                     <p class="currentCity">Aktobe</p>
-                    <button class="addCity"><img class="heart" src="./icons/heart.png" ></button>
+                    <button class="addCity"><img class="heart" src="./icons/heart.png"></button>
+                </div>
+                <div class="leftBlockMid">
+                    <div class="temperature">14°</div>
+                    <div class="iconWeather">
+                        <img class="currentImg" src="http://openweathermap.org/img/wn/13d@4x.png">
+                    </div>
+                    <div style="width: 50px;"></div>
+                </div>
+                <div class="leftBlockBottom">
+                    <p class="bottomText feelsLike">Feels like:</p>
+                    <p class="bottomText sunrise">Sunrise:</p>
+                    <p class="bottomText sunset">Sunset:</p>
+                </div>
+                <div class="predictions">
+                    <p class="predictionsTime morning">12:00</p>
+                    <div class="predictionsInfo">
+                        <div class="predictionsText">
+                            <p class="morningTemp">Temperature:</p>
+                            <p class="morningFeels">Feels like:</p>
+                        </div>
+                        <div class="predictionsImg">
+                            <img src="http://openweathermap.org/img/wn/13d@2x.png" alt="" class="morningImg">
+                        </div>
+                    </div>
+                    <hr class="hrBottom">
+                </div>
+                <div class="predictions">
+                    <p class="predictionsTime day">15:00</p>
+                    <div class="predictionsInfo">
+                        <div class="predictionsText">
+                            <p class="dayTemp">Temperature:</p>
+                            <p class="dayFeels">Feels like:</p>
+                        </div>
+                        <div class="predictionsImg">
+                            <img src="http://openweathermap.org/img/wn/13d@2x.png" alt="" class="dayImg">
+                        </div>
+                    </div>
+                    <hr class="hrBottom">
+                </div>
+                <div class="predictions">
+                    <p class="predictionsTime night ">18:00</p>
+                    <div class="predictionsInfo">
+                        <div class="predictionsText">
+                            <p class="nightTemp">Temperature:</p>
+                            <p class="nightFeels">Feels like:</p>
+                        </div>
+                        <div class="predictionsImg">
+                            <img src="http://openweathermap.org/img/wn/13d@2x.png" alt="" class="nightImg">
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="rightBlock">
                 <p class="addedLocation">Added Locations:</p>
                 <div clas="addedCities">
                     <ul class="cities">
-                        <li>Aktobe <button class="deletDiv" >	&#10060;</button></li>
+                        <li>Aktobe <button class="deletDiv"> </button></li>
                     </ul>
                 </div>
             </div>
         </div>
     </div>
-    <script src="main.js"></script>
+    <script src="main.js" type="module"></script>
 </body>
 
 </html>
